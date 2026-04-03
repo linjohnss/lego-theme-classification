@@ -108,11 +108,11 @@ def build_report():
 
     # ============ PAGE 1: Title + Introduction + Dataset Start ============
     pdf.add_page()
-    # Title logo
-    logo_path = os.path.join(FIG_DIR, 'title_logo.png')
+    # Small logo centered before title
+    logo_path = os.path.join(FIG_DIR, 'logo_small.png')
     if os.path.exists(logo_path):
-        pdf.image(logo_path, x=25, w=160)
-        pdf.ln(3)
+        pdf.image(logo_path, x=90, w=30)
+        pdf.ln(2)
     pdf.set_font('NS', 'B', 18)
     pdf.cell(0, 10, 'Predicting LEGO Set Themes from Part Composition', align='C', new_x='LMARGIN', new_y='NEXT')
     pdf.ln(3)
@@ -138,6 +138,12 @@ def build_report():
         'features? (2) Which feature groups contribute most? (3) How do class balance, data volume, '
         'and dimensionality reduction affect performance?'
     )
+
+    # Overview diagram
+    overview_path = os.path.join(FIG_DIR, 'title_logo.png')
+    if os.path.exists(overview_path):
+        pdf.fig('title_logo.png', 'Figure 0: Project overview. Part composition features are '
+                'extracted from LEGO set inventories and fed into ML models to predict the theme.', w=140)
 
     # --- 2. Dataset ---
     pdf.s1('2. Dataset')
