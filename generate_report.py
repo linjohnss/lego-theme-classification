@@ -114,7 +114,8 @@ def build_report():
     pdf.set_font('NS', '', 11)
     pdf.cell(0, 6, 'AI Capstone Project #1  |  NYCU Spring 2026  |  312554027 Chin-Yang Lin', align='C', new_x='LMARGIN', new_y='NEXT')
     pdf.set_font('NS', '', 10)
-    pdf.cell(0, 6, 'Dataset: https://github.com/linjohnss/lego-theme-classification', align='C', new_x='LMARGIN', new_y='NEXT')
+    pdf.cell(0, 6, 'Dataset: https://github.com/linjohnss/lego-theme-classification/blob/main/output/dataset.csv', align='C', new_x='LMARGIN', new_y='NEXT')
+    pdf.cell(0, 6, 'Code: https://github.com/linjohnss/lego-theme-classification', align='C', new_x='LMARGIN', new_y='NEXT')
     pdf.ln(3)
 
     # --- 1. Introduction ---
