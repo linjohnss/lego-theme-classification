@@ -108,6 +108,11 @@ def build_report():
 
     # ============ PAGE 1: Title + Introduction + Dataset Start ============
     pdf.add_page()
+    # Title logo
+    logo_path = os.path.join(FIG_DIR, 'title_logo.png')
+    if os.path.exists(logo_path):
+        pdf.image(logo_path, x=25, w=160)
+        pdf.ln(3)
     pdf.set_font('NS', 'B', 18)
     pdf.cell(0, 10, 'Predicting LEGO Set Themes from Part Composition', align='C', new_x='LMARGIN', new_y='NEXT')
     pdf.ln(3)
