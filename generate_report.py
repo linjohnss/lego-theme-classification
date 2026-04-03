@@ -76,8 +76,13 @@ class Report(FPDF):
         self.set_font('NS', 'B', fs)
         if cw is None:
             cw = [170 / len(headers)] * len(headers)
+        # Center table horizontally
+        table_w = sum(cw)
+        left_margin = (210 - table_w) / 2  # A4 width = 210mm
+
         self.set_fill_color(70, 130, 180)
         self.set_text_color(255, 255, 255)
+        self.set_x(left_margin)
         for i, h in enumerate(headers):
             self.cell(cw[i], 6, h, border=1, align='C', fill=True)
         self.ln()
@@ -86,6 +91,7 @@ class Report(FPDF):
         for ri, row in enumerate(rows):
             fc = (240, 248, 255) if ri % 2 == 0 else (255, 255, 255)
             self.set_fill_color(*fc)
+            self.set_x(left_margin)
             for i, c in enumerate(row):
                 self.cell(cw[i], 5.5, str(c), border=1, align='C', fill=True)
             self.ln()
