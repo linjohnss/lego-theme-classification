@@ -1,0 +1,21 @@
+Dataset shape: (6871, 258)
+Feature count: 256
+Samples per class:
+theme
+City            1517
+Duplo           1377
+Star Wars        977
+Ninjago          646
+Friends          639
+Creator          592
+Technic          564
+Bionicle         369
+Harry Potter     190
+
+Feature groups:
+  Color distribution: 166
+  Part category distribution: 70
+  Material distribution: 6
+  Color statistics: 7 (avg/std RGB + prop_transparent)
+  Scalar features: 5 (num_parts, year, num_unique_parts/colors/categories)
+  Minifig features: 2 (num_minifigs, num_unique_minifigs)
