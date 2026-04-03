@@ -123,9 +123,9 @@ def build_report():
         'In machine learning, dataset quality often matters more than algorithm choice. This project '
         'explores dataset construction through a creative classification task: predicting which LEGO '
         'product theme a set belongs to based solely on its part composition. LEGO themes have '
-        'distinctive characteristics — Star Wars uses grey palettes with many minifigures, Technic '
-        'uses beams and gears instead of bricks, and Duplo uses entirely different large-format parts. '
-        'We hypothesize these differences enable accurate classification from parts lists alone.'
+        'distinctive characteristics. For example, Star Wars uses grey palettes with many minifigures, '
+        'Technic uses beams and gears instead of bricks, and Duplo uses entirely different large-format '
+        'parts. We hypothesize these differences enable accurate classification from parts lists alone.'
     )
     pdf.p(
         'Our research questions: (1) Can ML models reliably predict LEGO themes from part-level '
@@ -140,13 +140,13 @@ def build_report():
         'We constructed our dataset from the Rebrickable open database (rebrickable.com/downloads/), '
         'which provides comprehensive LEGO data as CSV files. We downloaded 9 tables (~1.6M records) '
         'using Python\'s requests library. While the raw data is public, our dataset is self-constructed: '
-        'we designed the feature pipeline, selected themes, and computed all features from scratch — '
-        'analogous to using government weather APIs as a source for a custom prediction dataset.'
+        'we designed the feature pipeline, selected themes, and computed all features from scratch. '
+        'This is similar to using government weather APIs as a source for a custom prediction dataset.'
     )
     pdf.s2('2.2 Data Cleanup and Processing')
     pdf.p(
         'The raw data required substantial cleanup. Of the 26,462 sets in the database, 6,983 (26.4%) '
-        'had zero parts — these are non-buildable merchandise (keychains, bags, stationery, houseware) '
+        'had zero parts. These are non-buildable merchandise (keychains, bags, stationery, houseware) '
         'that must be filtered out. We also found 45,042 inventory records for 26,462 sets, meaning '
         'some sets have multiple inventory versions; we retained only version 1 (the primary inventory) '
         'to avoid duplicates. Within inventory_parts, we excluded spare parts (is_spare=True) since '
@@ -314,8 +314,8 @@ def build_report():
             cw=[42, 45, 38, 38], fs=9)
     pdf.caption('Table 4: Class balance strategies.')
     pdf.p(
-        'SMOTE improves RF F1 (0.911->0.921) by boosting Harry Potter recall, but slightly hurts HGB '
-        '(0.939->0.933). Key insight: optimal balancing strategy is model-dependent.'
+        'SMOTE improves RF F1 from 0.911 to 0.921 by boosting Harry Potter recall, but slightly hurts '
+        'HGB (0.939 to 0.933). This shows that the best balancing strategy depends on the model.'
     )
 
     # --- Experiment 3 ---
@@ -344,8 +344,8 @@ def build_report():
         'Part categories are the single most informative group (88.0%), which makes sense: themes '
         'like Duplo, Technic, and Bionicle use fundamentally different part types. Color features '
         'achieve 82.1%, confirming that color palettes carry theme-specific signals (Friends uses '
-        'pastels, Star Wars uses greys). Metadata alone reaches 80.8% with only 13 features — '
-        'surprisingly high, largely driven by the year feature (themes are era-specific). Combining '
+        'pastels, Star Wars uses greys). Metadata alone reaches 80.8% with only 13 features, '
+        'which is higher than expected. This is largely driven by the year feature. Combining '
         'all groups yields 93.8%, demonstrating strong complementarity.'
     )
     pdf.fig('feature_importance.png', 'Figure 7: Top 30 features by RF importance.', w=135)
@@ -376,11 +376,11 @@ def build_report():
             cw=[42, 40, 40, 40], fs=9)
     pdf.caption('Table 7: Effect of data augmentation.')
     pdf.p(
-        'Augmentation provides negligible benefit for RF and slightly hurts HGB. This makes sense: '
-        'our features are compositional proportions (summing to 1) and adding Gaussian noise '
-        'breaks this structure. Unlike image data, where augmentation simulates realistic variations, '
-        'adding noise to part distributions creates unrealistic compositions. This suggests that '
-        'augmentation strategies must respect the feature semantics — a key lesson for tabular data.'
+        'Augmentation provides almost no benefit for RF and slightly hurts HGB. We believe this is '
+        'because our features are compositional proportions that sum to 1, and adding Gaussian noise '
+        'breaks this structure. Unlike image data where augmentation simulates realistic variations, '
+        'adding noise to part distributions creates unrealistic compositions. For tabular data, '
+        'augmentation strategies need to respect the feature semantics to be useful.'
     )
 
     # --- Experiment 7 ---
@@ -397,20 +397,20 @@ def build_report():
     pdf.fig('year_ablation.png',
             'Figure 9: Accuracy with and without the year feature.', w=120)
     pdf.p(
-        'Removing year reduces RF accuracy by 0.7% and HGB by 0.7%, confirming that year provides '
-        'useful but not essential information. Interestingly, MLP is barely affected (0.08% drop), '
-        'suggesting it relies less on this single feature. The models still achieve >93% accuracy '
-        'without year, proving they learn genuine compositional patterns rather than simply '
-        'memorizing which themes existed in which era.'
+        'Removing year reduces RF accuracy by 0.7% and HGB by 0.7%, which confirms that year '
+        'provides useful but not essential information. MLP is barely affected (0.08% drop), '
+        'possibly because it relies less on any single feature. Since all models still achieve >93% '
+        'accuracy without year, we can conclude that they learn genuine compositional patterns '
+        'rather than just memorizing which themes existed in which era.'
     )
 
     # --- 5. Discussion ---
     pdf.s1('5. Discussion')
     pdf.s2('5.1 Expected vs. Observed Results')
     pdf.p(
-        'Our results largely confirm the initial hypotheses. Themes with unique part systems — '
-        'Duplo (large-format parts), Technic (beams, pins, gears), and Bionicle (constraction figures) '
-        '— are trivially classified with F1 scores above 0.98. This validates our approach of using '
+        'Our results largely confirm the initial hypotheses. Themes with unique part systems, '
+        'such as Duplo (large-format parts), Technic (beams, pins, gears), and Bionicle (constraction '
+        'figures), are easily classified with F1 scores above 0.98. This validates our approach of using '
         'part category distributions as features, since these themes occupy entirely different regions '
         'of the part category space.'
     )
@@ -423,10 +423,10 @@ def build_report():
         'tabular data [3].'
     )
     pdf.p(
-        'One surprising finding: PCA dimensionality reduction consistently hurts performance. We '
-        'expected some compression to improve results by removing noise, but our sparse feature '
-        'vectors (most sets use fewer than 20 of 166 possible colors) contain crucial discriminative '
-        'signals in rare-but-informative color dimensions that PCA discards.'
+        'We did not expect PCA to hurt performance as much as it did. We initially thought some '
+        'compression would help by removing noise, but our sparse feature vectors (most sets use '
+        'fewer than 20 of 166 possible colors) seem to contain important discriminative signals '
+        'in rare color dimensions that PCA discards.'
     )
     pdf.s2('5.2 Factors Affecting Results')
     pdf.p(
@@ -464,22 +464,22 @@ def build_report():
     pdf.s2('5.4 Lessons Learned and Remaining Questions')
     pdf.p(
         'This project reinforced key insights about data-centric ML: '
-        '(1) Feature engineering matters more than model selection — our carefully designed features '
+        '(1) Feature engineering matters more than model selection. Our carefully designed features '
         'achieve 90%+ accuracy even with 20% of the data using a simple Random Forest. '
-        '(2) Domain knowledge drives good features — understanding that Duplo uses different parts, '
+        '(2) Domain knowledge drives good features. Understanding that Duplo uses different parts, '
         'that Star Wars has a grey palette, and that Technic uses beams guided our design. '
         '(3) Standard techniques (PCA, SMOTE) can hurt when their assumptions don\'t match the data '
         'structure. Understanding when NOT to apply a technique is as important as knowing how.'
     )
     pdf.p(
-        'Remaining questions: (1) Why does PCA consistently degrade performance — is this '
-        'specifically due to the sparsity structure of our features, or would any linear dimensionality '
-        'reduction method (e.g., LDA) fail? Would non-linear methods like autoencoders preserve '
-        'the discriminative signals? (2) Can our models generalize across time — i.e., if trained '
-        'only on pre-2015 sets, would they accurately classify 2020+ sets where part designs have '
-        'evolved? (3) Creator sets are hardest to classify because they use generic parts by design — '
-        'would adding part co-occurrence features (which specific parts appear together) improve '
-        'Creator classification without harming other classes?'
+        'We still have several open questions. First, why does PCA consistently degrade performance? '
+        'Is this specifically due to the sparsity of our features, or would any linear dimensionality '
+        'reduction fail here? It would be worth testing non-linear methods like autoencoders. '
+        'Second, can our models generalize across time? If trained only on pre-2015 sets, would they '
+        'accurately classify 2020+ sets where part designs have evolved? '
+        'Third, Creator sets are hardest to classify because they use generic parts. Would adding '
+        'part co-occurrence features (which specific parts tend to appear together) help distinguish '
+        'Creator from other themes?'
     )
 
     # --- 6. References ---
